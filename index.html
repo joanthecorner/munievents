@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuniEvents</title>
+  <link rel="stylesheet" href="estilos/iniciocss.css">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- Header con imagen centrada -->
+<header class="header-image">
+  <img src="img/logo.png" alt="Header Image" class="img-fluid">
+</header>
+
+<!-- Barra de navegación -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="">Inicio</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/noticia.html">Noticias</a>
+        </li>
+      </ul>
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+      </form>
+      <div class="dropdown ml-2">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Imagen de Perfil" class="rounded-circle" style="width: 30px; height: 30px;">
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="/perfil.html">Perfil</a>
+          <a class="dropdown-item" href="#">Configuración</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Cerrar Sesión</a>
+        </div>
+      </div>
+      <button class="btn btn-primary ml-2">Login</button>
+    </div>
+  </div>
+</nav>
+<!-- Contenedor principal -->
+<div class="container mt-4">
+  <div class="row">
+    <!-- Sección de Eventos -->
+    <div class="col-md-8" id="eventosContainer">
+      <!-- Aquí se añadirán dinámicamentsse las tarjetas de eventos -->
+    </div>
+
+    <!-- Columna de Noticias -->
+    <div class="col-md-4">
+      <aside class="bg-light">
+        <div class="container pt-4 pb-4">
+          <h4>Noticias Recientes</h4>
+          <!-- Aquí puedes añadir tus noticias -->
+          <div class="card mb-3" id="noticia1">
+            <img src="img/imagen1noticia.jpg" class="card-img-top" alt="Imagen de la Noticia 1">
+            <div class="card-body">
+              <h5 class="card-title">Inauguración de un nuevo parque público</h5>
+              <p class="card-text">La ciudad se complace en anunciar la inauguración del nuevo Parque Central, un espacio verde diseñado para el disfrute de toda la comunidad. Con áreas de juegos, senderos para caminar y hermosos jardines, el Parque Central es el lugar perfecto para relajarse y pasar tiempo al aire libre con la familia y amigos.</p>
+            </div>
+          </div>
+          <!-- Noticia 2 -->
+          <div class="card" id="noticia2">
+            <img src="img/imagen2noticia.jpg" class="card-img-top" alt="Imagen de la Noticia 2">
+            <div class="card-body">
+              <h5 class="card-title">Campaña de limpieza comunitaria</h5>
+              <p class="card-text">Únete a nosotros este sábado para nuestra campaña de limpieza comunitaria. Nos reuniremos en la plaza del ayuntamiento a las 9 a.m. para recoger basura y embellecer nuestros vecindarios. ¡Tu participación es crucial para mantener nuestra ciudad limpia y hermosa para todos!</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<!-- Enlaces a Bootstrap JS y jQuery (necesarios para algunos componentes de Bootstrap) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+  // Hacer la solicitud Fetch y actualizar las tarjetas de eventos
+  fetch('https://40b4yl5a96.execute-api.us-east-1.amazonaws.com/noticias/noticias')
+    .then(response => response.json())
+    .then(data => {
+      const eventosContainer = document.getElementById('eventosContainer');
+
+      // Limpiar el contenido actual del contenedor de eventos
+      eventosContainer.innerHTML = '';
+
+      // Iterar sobre los datos y agregar las tarjetas de eventos dinámicamente
+      Object.keys(data).forEach(noticiaKey => {
+        const noticia = data[noticiaKey];
+        const noticiaCard = `
+          <div class="col-md-12 mb-4">
+            <div class="card">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <img src="img/${noticiaKey}.jpg" class="card-img" alt="Imagen de la Noticia ${noticiaKey}">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">${noticia.titulo}</h5>
+                    <p class="card-text">${noticia.descripcion}</p>
+                    <a href="#" class="btn btn-primary">Ver más</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        // Agregar la tarjeta al contenedor de eventos
+        eventosContainer.innerHTML += noticiaCard;
+      });
+    })
+    .catch(error => console.error('Error al obtener datos de noticias:', error));
+</script>
+
+</body>
+</html>

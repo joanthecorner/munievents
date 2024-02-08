@@ -1,0 +1,24 @@
+.buttons {
+    display: flex;
+    gap: 10px; /* Espaciado entre los botones */
+    margin-top: 10px;
+}
+
+/* Estilos adicionales */
+.header {
+    background-color: rgb(23, 31, 42);
+}
+
+.nav {
+    background-color: rgb(210, 220, 233); /* Corrección de color D2DCE9 y ajuste de formato */
+}
+
+.header-image {
+    text-align: center;
+}
+
+.header img {
+    display: block;
+    margin: auto; /* Centra horizontalmente */
+    max-width: 100%; /* Ajusta el ancho máximo */
+}

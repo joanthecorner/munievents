@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banners de noticias</title>
+  <link rel="stylesheet" href="estilos/noticiascss.css">
+</head>
+<body>
+
+    <header>
+        <img src="img/logo.png" alt="">
+       </header>
+  <section class="banner-container" id="banner-container">
+    <!-- Los banners se llenarán dinámicamente aquí -->
+  </section>
+<p>
+    Sda
+</p>
+  <script>
+  // URL de la API que proporciona las noticias
+const noticiasURL = "https://40b4yl5a96.execute-api.us-east-1.amazonaws.com/noticias/noticias";
+
+// Obtener el contenedor de banners en el HTML mediante su ID
+const bannerContainer = document.getElementById('banner-container');
+
+// Realizar una solicitud fetch para obtener los datos de la API de noticias
+fetch(noticiasURL)
+  .then(response => response.json())  // Convertir la respuesta a formato JSON
+  //almacenamos los datos obtenido en data
+  .then(data => {
+    // Iterar sobre las noticias obtenidas
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {  // Verificar que la propiedad realmente pertenece al objeto y no a su prototipo
+        const noticia = data[key];  // Obtener la noticia actual del objeto de datos
+        const banner = document.createElement('div');  // Crear un nuevo elemento div para el banner
+        banner.classList.add('banner');  // Agregar la clase 'banner' al elemento div
+        banner.innerHTML = `
+          <img src="imagen-banner-${key}.jpg" alt="Banner ${key}">  <!-- Agregar una imagen al banner con un nombre de archivo basado en la clave -->
+          <div class="texto-banner">
+            <h2>${noticia.titulo}</h2>  <!-- Mostrar el título de la noticia en un encabezado h2 -->
+            <p>${noticia.subtitulo}</p>  <!-- Mostrar el subtítulo de la noticia en un párrafo -->
+            <p>${noticia.descripcion}</p>  <!-- Mostrar la descripción de la noticia en otro párrafo -->
+          </div>
+        `;
+        bannerContainer.appendChild(banner);  // Agregar el banner al contenedor de banners en el HTML
+      }
+    }
+  })
+  .catch(error => console.error('Error al obtener las noticias:', error));  // Manejar errores en la solicitud fetch
+  </script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido</title>
+</head>
+<body>
+  <p id="welcomeMessage"></p>
+
+  <script>
+    // Obtener el usuario actual del localStorage
+    var currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    // Mostrar el mensaje de bienvenida
+    if (currentUser) {
+      document.getElementById("welcomeMessage").innerText = "Hola, bienvenido " + currentUser.usuario;
+    } else {
+      // Si no hay usuario en el localStorage, redirigir a la página de login
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
